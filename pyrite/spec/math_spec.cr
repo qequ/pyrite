@@ -44,5 +44,38 @@ describe Pyrite::Math do
       Pyrite::Math.loggamma(1.5).should be_close(::Math.log(0.5 * ::Math.sqrt(::Math::PI)), 0.0001)
       # Add more test cases as needed
     end
+
+    describe ".beta" do
+      it "calculates beta for standard values" do
+        Pyrite::Math.beta(0.5, 0.5).should be_close(::Math::PI, 0.0001)
+      end
+    end
+
+    describe ".logbeta" do
+      it "calculates logbeta for standard values" do
+        Pyrite::Math.logbeta(0.5, 0.5).should be_close(::Math.log(::Math::PI), 0.0001)
+      end
+    end
+
+    describe ".round" do
+      it "rounds numbers correctly" do
+        Pyrite::Math.round(2.5).should eq(3.0)
+        Pyrite::Math.round(-2.5).should eq(-3.0)
+      end
+    end
+
+    describe ".step" do
+      it "calculates step function correctly" do
+        Pyrite::Math.step(1).should eq(1)
+        Pyrite::Math.step(-1).should eq(0)
+      end
+    end
+
+    describe ".sign" do
+      it "calculates sign function correctly" do
+        Pyrite::Math.sign(1).should eq(1)
+        Pyrite::Math.sign(-1).should eq(-1)
+      end
+    end
   end
 end
