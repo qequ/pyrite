@@ -27,4 +27,23 @@ describe Pyrite::PRNG::Kiss99 do
 
     different.should be_true
   end
+
+  # The test for generating random numbers should be here, not nested inside another 'it' block
+  it "generates random numbers" do
+    lfib4 = Pyrite::PRNG::Lfib4.new
+    num1 = lfib4.next_bits
+    num2 = lfib4.next_bits
+    num1.should_not eq(num2)
+  end
+
+  it "produces a reproducible sequence with the same seed" do
+    lfib4a = Pyrite::PRNG::Lfib4.new
+    lfib4b = Pyrite::PRNG::Lfib4.new
+
+    numbers_a = Array.new(10) { lfib4a.next_bits }
+    numbers_b = Array.new(10) { lfib4b.next_bits }
+    numbers_a.should eq(numbers_b)
+  end
+
+  # Additional tests can be added as needed
 end
