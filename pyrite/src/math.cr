@@ -103,5 +103,25 @@ module Pyrite
 
       ::Math.log(GAMMA_C) + (z - 0.5) * ::Math.log(z + GAMMA_R10 - 0.5) - (z - 0.5) + ::Math.log(sum)
     end
+
+    def self.logbeta(a : Float64, b : Float64) : Float64
+      return loggamma(a) + loggamma(b) - loggamma(a + b)
+    end
+
+    def self.beta(a : Float64, b : Float64) : Float64
+      ::Math.exp(logbeta(a, b))
+    end
+
+    def self.round(x : Float64) : Float64
+      return x < 0 ? (x - 0.5).ceil : (x + 0.5).floor
+    end
+
+    def self.step(x : Float64) : Int32
+      return x >= 0 ? 1 : 0
+    end
+
+    def self.sign(x : Float64) : Int32
+      return x >= 0 ? 1 : -1
+    end
   end
 end
