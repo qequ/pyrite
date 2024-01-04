@@ -1,0 +1,13 @@
+name: pyrite
+version: 0.1.0
+
+authors:
+  - Alvaro Frias Garay <alvarofriasgaray@gmail.com>
+
+targets:
+  pyrite:
+    main: src/pyrite.cr
+
+crystal: '>= 1.10.1'
+
+license: MIT
