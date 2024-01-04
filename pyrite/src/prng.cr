@@ -51,6 +51,36 @@ module Pyrite
       end
     end
 
+    class Lfib4 < BasePRNG
+      property s : Array(UInt32)
+      property i : Int32
+
+      def initialize
+        @s = Array.new(256) { 0_u32 } # Initialize the array with 256 UInt32 elements set to 0
+        @i = 0
+
+        # Initialize with Kiss99 PRNG
+        kiss99 = Kiss99.new
+        256.times do |index|
+          @s[index] = kiss99.next_bits
+        end
+      end
+
+      def next_bits : UInt32
+        @i = (@i + 1) & 255
+        @s[@i] = @s[@i] &+ @s[(@i + 58) & 255] &+ @s[(@i + 119) & 255] &+ @s[(@i + 178) & 255]
+
+        @s[@i]
+      end
+
+      def copy : BasePRNG
+        copy = Lfib4.new
+        copy.s = @s.clone
+        copy.i = @i
+        copy
+      end
+    end
+
     # ... other PRNG implementations ...
   end
 end
