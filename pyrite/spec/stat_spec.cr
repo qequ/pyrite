@@ -143,3 +143,33 @@ describe Pyrite::Stat::Student do
     end
   end
 end
+
+describe Pyrite::Stat::Gamma do
+  describe "Gamma distribution" do
+    alpha = 2.0
+    beta = 3.0
+    gamma_dist = Pyrite::Stat::Gamma.new(alpha, beta)
+
+    it "calculates the PDF correctly for given alpha and beta" do
+      pdf_value = gamma_dist.pdf(1.0)
+      expected_pdf = (beta**alpha) * (1.0**(alpha - 1)) * Math.exp(-beta * 1.0) / Math.gamma(alpha)
+      pdf_value.should be_close(expected_pdf, 1e-6)
+    end
+
+    it "has the correct mean" do
+      gamma_dist.mean.should eq(alpha / beta)
+    end
+
+    it "has the correct variance" do
+      gamma_dist.variance.should eq(alpha / (beta**2))
+    end
+
+    it "generates a plausible sample" do
+      rng = Random.new
+      sample = gamma_dist.sample(rng)
+      # Check for a plausible sample considering Gamma distribution characteristics
+      # This is a basic check and can be further refined based on the specific characteristics of the Gamma distribution
+      sample.should be >= 0 # Gamma distribution produces positive values
+    end
+  end
+end
