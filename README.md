@@ -80,6 +80,82 @@ root, _ = Pyrite::Root.newton(f, f_prime, 0.0, 2.0) { false }
 puts "Root of x^2 - 2: #{root}"
 ```
 
+### Statistical Distributions
+
+#### Normal Distribution
+
+```crystal
+
+require "pyrite/stat"
+
+# Normal Distribution with mean 0 and standard deviation 1
+normal_dist = Pyrite::Stat::Normal.new(0.0, 1.0)
+puts "PDF of normal distribution at 0: #{normal_dist.pdf(0.0)}"
+puts "Random sample from normal distribution: #{normal_dist.sample}"
+
+```
+
+#### Exponential Distribution
+  
+```crystal
+# Exponential Distribution with lambda = 1.5
+exp_dist = Pyrite::Stat::Exponential.new(1.5)
+puts "Mean of exponential distribution: #{exp_dist.mean}"
+puts "Random sample from exponential distribution: #{exp_dist.sample}"
+
+```
+
+#### Uniform Distribution
+
+```crystal
+# Uniform Distribution between 0 and 1
+uniform_dist = Pyrite::Stat::Uniform.new(0.0, 1.0)
+puts "PDF of uniform distribution at 0.5: #{uniform_dist.pdf(0.5)}"
+puts "Random sample from uniform distribution: #{uniform_dist.sample}"
+  
+```
+
+#### Gamma Distribution
+
+```crystal
+
+# Gamma Distribution with alpha = 2.0 and beta = 3.0
+gamma_dist = Pyrite::Stat::Gamma.new(2.0, 3.0)
+puts "Mean of gamma distribution: #{gamma_dist.mean}"
+puts "Random sample from gamma distribution: #{gamma_dist.sample}"
+  
+```
+
+#### Beta Distribution
+
+```crystal
+# Beta Distribution with alpha = 2.0 and beta = 5.0
+beta_dist = Pyrite::Stat::Beta.new(2.0, 5.0)
+puts "PDF of beta distribution at 0.5: #{beta_dist.pdf(0.5)}"
+puts "Random sample from beta distribution: #{beta_dist.sample}"
+
+```
+
+#### Log-Normal Distribution
+  
+```crystal
+
+# Log-Normal Distribution with mu = 0 and sigma = 1
+log_normal_dist = Pyrite::Stat::LogNormal.new(0.0, 1.0)
+puts "PDF of log-normal distribution at 1: #{log_normal_dist.pdf(1.0)}"
+puts "Random sample from log-normal distribution: #{log_normal_dist.sample}"
+
+```
+
+#### Student-t Distribution
+  
+```crystal
+# Student-t Distribution with nu = 10
+student_dist = Pyrite::Stat::Student.new(10)
+puts "PDF of student-t distribution at 0: #{student_dist.pdf(0.0)}"
+puts "Random sample from student-t distribution: #{student_dist.sample}"
+
+```
 
 
 ## Development
