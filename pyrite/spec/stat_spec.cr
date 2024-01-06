@@ -63,3 +63,45 @@ describe Pyrite::Stat::Normal do
     end
   end
 end
+
+describe Pyrite::Stat::Uniform do
+  describe "Uniform distribution" do
+    a = 0.0
+    b = 1.0
+    uni_dist = Pyrite::Stat::Uniform.new(a, b)
+
+    it "calculates the mean correctly" do
+      expected_mean = 0.5 * (a + b)
+      uni_dist.mean.should eq(expected_mean)
+    end
+
+    it "calculates the variance correctly" do
+      expected_variance = (b - a)**2 / 12.0
+      uni_dist.variance.should eq(expected_variance)
+    end
+
+    it "generates a sample within range" do
+      rng = Random.new
+      sample = uni_dist.sample(rng)
+      sample.should be >= a
+      sample.should be <= b
+    end
+  end
+end
+
+describe Pyrite::Stat::MVUniform do
+  describe "Multi-variate Uniform distribution" do
+    a = [0.0, 1.0]
+    b = [1.0, 2.0]
+    mvuni_dist = Pyrite::Stat::MVUniform.new(a, b)
+
+    it "generates samples within multi-variate range" do
+      rng = Random.new
+      samples = mvuni_dist.sample(rng)
+      samples.each_with_index do |sample, i|
+        sample.should be >= a[i]
+        sample.should be <= b[i]
+      end
+    end
+  end
+end
