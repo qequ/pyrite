@@ -1,6 +1,6 @@
 # Pyrite
 
-![Pyrite Logo](./logo/pyrite_logo.png)
+<img src="./logo/pyrite_logo.png" alt="Pyrite Logo" width="200"/>
 
 Pyrite is a Crystal library for scientific computing, heavily inspired by the SciLua library. It provides a range of functionalities including complex numbers, special mathematical functions, pseudorandom number generators (PRNGs), root-finding algorithms, and statistical distributions. Pyrite is designed for applications requiring high performance and accurate computations in scientific and engineering domains.
 
