@@ -100,5 +100,34 @@ module Pyrite
         a.zip(b).map { |ai, bi| ai + (bi - ai) * rng.rand }
       end
     end
+
+    class Student < Distribution
+      property nu : Float64
+
+      def initialize(@nu : Float64)
+        raise ArgumentError.new("nu must be positive") if nu <= 0
+      end
+
+      def pdf(x : Float64) : Float64
+        (1 + x**2 / nu)**(-0.5 * (nu + 1)) / (::Math.sqrt(nu) * Pyrite::Math.beta(0.5, 0.5 * nu))
+      end
+
+      def mean : Float64
+        return Float64::NAN if nu <= 1
+        0.0
+      end
+
+      def variance : Float64
+        return Float64::NAN if nu <= 1
+        return Float64::INFINITY if nu <= 2
+        nu / (nu - 2)
+      end
+
+      def sample(rng : Random = Random::DEFAULT) : Float64
+        u1 = rng.rand
+        u2 = rng.rand
+        ::Math.sqrt(nu * (u1**(-2 / nu) - 1)) * ::Math.cos(2 * ::Math::PI * u2)
+      end
+    end
   end
 end

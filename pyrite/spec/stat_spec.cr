@@ -105,3 +105,41 @@ describe Pyrite::Stat::MVUniform do
     end
   end
 end
+
+describe Pyrite::Stat::Student do
+  describe "Student-t distribution" do
+    # Test for PDF at x = 0 for nu = 3
+    it "calculates the PDF correctly at x = 0 for nu = 3" do
+      nu = 3.0
+      student_dist = Pyrite::Stat::Student.new(nu)
+      pdf_value = student_dist.pdf(0.0)
+      expected_pdf = (1 + 0**2 / nu)**(-0.5 * (nu + 1)) / (Math.sqrt(nu) * Pyrite::Math.beta(0.5, 0.5 * nu))
+      pdf_value.should be_close(expected_pdf, 1e-6)
+    end
+
+    # Test for correct mean for nu > 1
+    it "has the correct mean for nu > 1" do
+      nu = 2.5
+      student_dist = Pyrite::Stat::Student.new(nu)
+      student_dist.mean.should eq(0)
+    end
+
+    # Test for correct variance for nu > 2
+    it "has the correct variance for nu > 2" do
+      nu = 4.0
+      student_dist = Pyrite::Stat::Student.new(nu)
+      student_dist.variance.should eq(nu / (nu - 2))
+    end
+
+    # Test for plausible sample generation
+    it "generates a plausible sample" do
+      nu = 3.0
+      student_dist = Pyrite::Stat::Student.new(nu)
+      rng = Random.new
+      sample = student_dist.sample(rng)
+      # Check for a plausible sample considering Student-t distribution characteristics
+      # This is a basic check and can be further refined based on the specific characteristics of the Student-t distribution
+      sample.abs.should be <= 10 # Example check within 10 standard deviations
+    end
+  end
+end
