@@ -166,5 +166,33 @@ module Pyrite
         end
       end
     end
+
+    class Beta < Distribution
+      property alpha : Float64
+      property beta : Float64
+
+      def initialize(@alpha : Float64, @beta : Float64)
+        raise ArgumentError.new("alpha and beta must be positive") if alpha <= 0 || beta <= 0
+      end
+
+      def pdf(x : Float64) : Float64
+        return 0.0 if x < 0 || x > 1
+        x**(alpha - 1) * (1 - x)**(beta - 1) / Math.beta(alpha, beta)
+      end
+
+      def mean : Float64
+        alpha / (alpha + beta)
+      end
+
+      def variance : Float64
+        (alpha * beta) / ((alpha + beta)**2 * (alpha + beta + 1))
+      end
+
+      def sample(rng : Random = Random::DEFAULT) : Float64
+        x = Gamma.new(alpha, 1).sample(rng)
+        y = Gamma.new(beta, 1).sample(rng)
+        x / (x + y)
+      end
+    end
   end
 end

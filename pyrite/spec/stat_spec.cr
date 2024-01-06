@@ -173,3 +173,32 @@ describe Pyrite::Stat::Gamma do
     end
   end
 end
+
+describe Pyrite::Stat::Beta do
+  describe "Beta distribution" do
+    alpha = 2.0
+    beta = 3.0
+    beta_dist = Pyrite::Stat::Beta.new(alpha, beta)
+
+    it "calculates the PDF correctly for given alpha and beta" do
+      pdf_value = beta_dist.pdf(0.5)
+      expected_pdf = 0.5**(alpha - 1) * (1 - 0.5)**(beta - 1) / Pyrite::Math.beta(alpha, beta)
+      pdf_value.should be_close(expected_pdf, 1e-6)
+    end
+
+    it "has the correct mean" do
+      beta_dist.mean.should eq(alpha / (alpha + beta))
+    end
+
+    it "has the correct variance" do
+      beta_dist.variance.should eq((alpha * beta) / ((alpha + beta)**2 * (alpha + beta + 1)))
+    end
+
+    it "generates a sample within the range [0, 1]" do
+      rng = Random.new
+      sample = beta_dist.sample(rng)
+      sample.should be >= 0
+      sample.should be <= 1
+    end
+  end
+end
