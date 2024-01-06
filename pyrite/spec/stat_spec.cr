@@ -202,3 +202,31 @@ describe Pyrite::Stat::Beta do
     end
   end
 end
+
+describe Pyrite::Stat::LogNormal do
+  describe "Log-normal distribution" do
+    mu = 0.0
+    sigma = 1.0
+    log_normal_dist = Pyrite::Stat::LogNormal.new(mu, sigma)
+
+    it "calculates the PDF correctly for given mu and sigma" do
+      pdf_value = log_normal_dist.pdf(1.0)
+      expected_pdf = Math.exp(-(Math.log(1.0) - mu)**2 / (2 * sigma**2)) / (1.0 * Math.sqrt(2 * Math::PI) * sigma)
+      pdf_value.should be_close(expected_pdf, 1e-6)
+    end
+
+    it "has the correct mean" do
+      log_normal_dist.mean.should eq(Math.exp(mu + 0.5 * sigma**2))
+    end
+
+    it "has the correct variance" do
+      log_normal_dist.variance.should eq((Math.exp(sigma**2) - 1) * Math.exp(2 * mu + sigma**2))
+    end
+
+    it "generates a plausible sample" do
+      rng = Random.new
+      sample = log_normal_dist.sample(rng)
+      sample.should be > 0
+    end
+  end
+end

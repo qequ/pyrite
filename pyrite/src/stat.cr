@@ -194,5 +194,31 @@ module Pyrite
         x / (x + y)
       end
     end
+
+    class LogNormal < Distribution
+      property mu : Float64
+      property sigma : Float64
+
+      def initialize(@mu : Float64, @sigma : Float64)
+        raise ArgumentError.new("sigma must be positive") if sigma <= 0
+      end
+
+      def pdf(x : Float64) : Float64
+        return 0.0 if x < 0
+        ::Math.exp(-(::Math.log(x) - mu)**2 / (2 * sigma**2)) / (x * ::Math.sqrt(2 * Math::PI) * sigma)
+      end
+
+      def mean : Float64
+        ::Math.exp(mu + 0.5 * sigma**2)
+      end
+
+      def variance : Float64
+        (::Math.exp(sigma**2) - 1) * ::Math.exp(2 * mu + sigma**2)
+      end
+
+      def sample(rng : Random = Random::DEFAULT) : Float64
+        ::Math.exp(Pyrite::Math.iphi(rng.rand) * sigma + mu)
+      end
+    end
   end
 end
